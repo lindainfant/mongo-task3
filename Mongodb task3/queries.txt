@@ -1,0 +1,20 @@
+
+Find all the topics and tasks which are thought in the month of October
+>>>>>>db.topics.find({month:"october"});
+
+Find all the company drives which appeared between 15 oct-2020 and 31-oct-2020
+>>>>>>db.company_drive.find({date:{$gt:new Date("2020-10-15"),$lt:new Date("2020-10-31")}});
+
+Find all the company drives and students who are appeared for the placement.
+>>>>>>db.company_drive.aggregate([{$project:{_id:1,stu_appear:1}}]);
+
+Find the number of problems solved by the user in codekata
+>>>>>>db.codekatta.aggregate([{$project:{_id:1,problemsolved:1,status:1}}]);
+
+Find all the mentors with who has the mentee's count more than 15
+>>>>>>db.mentor.find({men_count:{$gt:15}});
+
+Find the number of users who are absent and task is not submitted  between 15 oct-2020 and 31-oct-2020
+>>>>>db.user.aggregate([{$lookup:{from:'attendance',localField:'user_id',foreignField:'_id',as:'userdetail'}}]);
+db.user.aggregate([{$unwind:'$userdetail'}]);
+db.user.aggregate([{$project:{_id:0,attendance:1}}]);
